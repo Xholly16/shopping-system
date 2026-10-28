@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online Shop</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 0; background: #f4f5f7; color: #222; }
+  header { background: #1f3a5f; color: #fff; padding: 1rem 2rem; }
+  main { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; padding: 2rem; max-width: 1000px; margin: auto; }
+  .card { background: #fff; border-radius: 8px; padding: 1rem 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+  .product { display: flex; justify-content: space-between; align-items: center; padding: .6rem 0; border-bottom: 1px solid #eee; }
+  .product:last-child { border-bottom: none; }
+  .meta { font-size: .85rem; color: #666; }
+  input[type=number] { width: 3.5rem; padding: .3rem; }
+  button { background: #1f3a5f; color: #fff; border: 0; border-radius: 4px; padding: .4rem .8rem; cursor: pointer; }
+  button.link { background: none; color: #b00020; padding: 0 .3rem; }
+  #msg { margin: 1rem 2rem 0; text-align: center; min-height: 1.5rem; font-weight: 600; }
+  .err { color: #b00020; } .ok { color: #1b7f3b; }
+  .row { display: flex; justify-content: space-between; padding: .3rem 0; }
+  .total { font-weight: 700; border-top: 2px solid #222; margin-top: .5rem; padding-top: .5rem; }
+</style>
+</head>
+<body>
+<header><h1>Online Shop</h1></header>
+<div id="msg"></div>
+<main>
+  <section class="card"><h2>Products</h2><div id="products"></div></section>
+  <aside class="card">
+    <h2>Your cart</h2>
+    <div id="cart"></div>
+    <button id="checkout" style="margin-top:1rem;width:100%">Checkout</button>
+  </aside>
+</main>
+<script>
+const money = n => 'R' + Number(n).toFixed(2);
+const msg = (t, ok) => { const m = document.getElementById('msg'); m.textContent = t; m.className = ok ? 'ok' : 'err'; };
+
+async function api(url, opts) {
+  const res = await fetch(url, opts);
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
+
+async function loadProducts() {
+  const products = await api('/api/products');
+  document.getElementById('products').innerHTML = products.map(p => `
+    <div class="product">
+      <div><strong>${p.name}</strong><div class="meta">${money(p.price)} &middot; stock: ${p.stock}</div></div>
+      <div><input type="number" id="qty-${p.id}" value="1" min="1">
+      <button onclick="addToCart(${p.id})">Add</button></div>
+    </div>`).join('');
+}
+
+function renderCart(cart) {
+  const el = document.getElementById('cart');
+  if (cart.items.length === 0) { el.innerHTML = '<p class="meta">Cart is empty.</p>'; return; }
+  el.innerHTML = cart.items.map(i => `
+    <div class="row"><span>${i.product.name} x${i.quantity}</span>
+    <span>${money(i.subtotal)}<button class="link" onclick="removeItem(${i.product.id})">&times;</button></span></div>`).join('')
+    + `<div class="row total"><span>Total</span><span>${money(cart.total)}</span></div>`;
+}
+
+async function addToCart(id) {
+  try {
+    const qty = parseInt(document.getElementById('qty-' + id).value, 10);
+    renderCart(await api('/api/cart', { method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ productId: id, quantity: qty }) }));
+    msg('Added to cart.', true);
+  } catch (e) { msg(e.message, false); }
+}
+
+async function removeItem(id) {
+  try { renderCart(await api('/api/cart/' + id, { method: 'DELETE' })); msg('Removed.', true); }
+  catch (e) { msg(e.message, false); }
+}
+
+document.getElementById('checkout').onclick = async () => {
+  try {
+    const order = await api('/api/checkout', { method: 'POST' });
+    msg(`Order #${order.id} placed. Total ${money(order.total)}`, true);
+    await loadProducts();
+    renderCart(await api('/api/cart'));
+  } catch (e) { msg(e.message, false); }
+};
+
+(async () => { await loadProducts(); renderCart(await api('/api/cart')); })();
+</script>
+</body>
+</html>
