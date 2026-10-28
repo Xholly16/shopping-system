@@ -8,3 +8,7 @@ product catalog, add items to a cart, and complete purchases via checkout.
 
 ## Test
     mvn test
+
+## Web front end
+    mvn -q compile exec:java
+Then open http://localhost:7070
