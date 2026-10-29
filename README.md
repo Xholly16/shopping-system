@@ -12,3 +12,10 @@ product catalog, add items to a cart, and complete purchases via checkout.
 ## Web front end
     mvn -q compile exec:java
 Then open http://localhost:7070
+
+## Screenshot
+![Online Shop](docs/shop-screenshot.png)
+
+
+## Verification code:
+WTC-EN8YCRMQ
