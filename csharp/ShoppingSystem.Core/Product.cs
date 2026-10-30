@@ -9,11 +9,20 @@ public class Product
 
     public Product(int id, string name, decimal price, int stock)
     {
-        throw new NotImplementedException();
+        if (price < 0 || stock < 0)
+            throw new ArgumentException("Price and stock cannot be negative");
+
+        Id = id;
+        Name = name;
+        Price = price;
+        Stock = stock;
     }
 
     public void ReduceStock(int quantity)
     {
-        throw new NotImplementedException();
+        if (quantity <= 0 || quantity > Stock)
+            throw new ArgumentException($"Invalid quantity: {quantity}");
+
+        Stock -= quantity;
     }
 }
