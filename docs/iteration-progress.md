@@ -20,3 +20,7 @@ Covers sign up, log in/out, search, cart, card and cash payment, order history, 
 data-driven cases. Screenshots are saved on failure.
 Run: start the app, then `dotnet test csharp/ShoppingSystem.GuiTests` (BROWSER=chrome, HEADLESS=0 optional).
 Report: docs/gui-test-report.html
+
+## Iteration 4 (WeShare group project)
+Scaffold in `csharp/WeShare.Tests` (config, smoke test, API/GUI/Pages folders) plus
+`docs/weshare/` test plan and showcase outline. Team tests and results still to be added.
