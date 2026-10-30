@@ -1,0 +1,37 @@
+openapi: 3.0.3
+info: { title: Shopping System API, version: "1.0" }
+servers: [ { url: "http://localhost:7070" } ]
+components:
+  securitySchemes:
+    cookieAuth: { type: apiKey, in: cookie, name: JSESSIONID }
+  schemas:
+    Error: { type: object, properties: { error: { type: string } } }
+    Product: { type: object, properties: { id: { type: integer }, name: { type: string }, price: { type: number }, stock: { type: integer } } }
+    CartItem: { type: object, properties: { product: { $ref: "#/components/schemas/Product" }, quantity: { type: integer }, subtotal: { type: number } } }
+    Cart: { type: object, properties: { items: { type: array, items: { $ref: "#/components/schemas/CartItem" } }, total: { type: number } } }
+    User: { type: object, properties: { username: { type: string }, email: { type: string } } }
+    Order: { type: object, properties: { id: { type: integer }, items: { type: array, items: { $ref: "#/components/schemas/CartItem" } }, total: { type: number }, username: { type: string }, paymentMethod: { type: string, enum: [CARD, CASH_ON_DELIVERY] }, cardLast4: { type: string, nullable: true }, reference: { type: string }, createdAt: { type: string } } }
+  responses:
+    BadRequest: { description: Validation failed, content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+    Unauthorized: { description: Not logged in, content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+paths:
+  /api/products:
+    get: { operationId: listProducts, summary: List products, responses: { "200": { description: Products, content: { application/json: { schema: { type: array, items: { $ref: "#/components/schemas/Product" } } } } } } }
+  /api/signup:
+    post: { operationId: signup, summary: Create account, requestBody: { required: true, content: { application/json: { schema: { type: object, required: [username, email, password], properties: { username: { type: string }, email: { type: string }, password: { type: string, minLength: 8 } } } } } }, responses: { "201": { description: Created, content: { application/json: { schema: { $ref: "#/components/schemas/User" } } } }, "400": { $ref: "#/components/responses/BadRequest" } } }
+  /api/login:
+    post: { operationId: login, summary: Log in, requestBody: { required: true, content: { application/json: { schema: { type: object, required: [username, password], properties: { username: { type: string }, password: { type: string } } } } } }, responses: { "200": { description: Logged in, content: { application/json: { schema: { $ref: "#/components/schemas/User" } } } }, "400": { $ref: "#/components/responses/BadRequest" } } }
+  /api/logout:
+    post: { operationId: logout, summary: Log out, security: [ { cookieAuth: [] } ], responses: { "200": { description: Logged out }, "401": { $ref: "#/components/responses/Unauthorized" } } }
+  /api/me:
+    get: { operationId: currentUser, summary: Current user, security: [ { cookieAuth: [] } ], responses: { "200": { description: User, content: { application/json: { schema: { $ref: "#/components/schemas/User" } } } }, "401": { $ref: "#/components/responses/Unauthorized" } } }
+  /api/cart:
+    get: { operationId: getCart, summary: View cart, security: [ { cookieAuth: [] } ], responses: { "200": { description: Cart, content: { application/json: { schema: { $ref: "#/components/schemas/Cart" } } } }, "401": { $ref: "#/components/responses/Unauthorized" } } }
+    post: { operationId: addToCart, summary: Add to cart, security: [ { cookieAuth: [] } ], requestBody: { required: true, content: { application/json: { schema: { type: object, required: [productId, quantity], properties: { productId: { type: integer }, quantity: { type: integer, minimum: 1 } } } } } }, responses: { "200": { description: Cart, content: { application/json: { schema: { $ref: "#/components/schemas/Cart" } } } }, "400": { $ref: "#/components/responses/BadRequest" }, "401": { $ref: "#/components/responses/Unauthorized" } } }
+    delete: { operationId: clearCart, summary: Empty cart, security: [ { cookieAuth: [] } ], responses: { "200": { description: Cart, content: { application/json: { schema: { $ref: "#/components/schemas/Cart" } } } }, "401": { $ref: "#/components/responses/Unauthorized" } } }
+  /api/cart/{id}:
+    delete: { operationId: removeFromCart, summary: Remove one product, security: [ { cookieAuth: [] } ], parameters: [ { name: id, in: path, required: true, schema: { type: integer } } ], responses: { "200": { description: Cart, content: { application/json: { schema: { $ref: "#/components/schemas/Cart" } } } }, "401": { $ref: "#/components/responses/Unauthorized" } } }
+  /api/checkout:
+    post: { operationId: checkout, summary: Pay for cart, security: [ { cookieAuth: [] } ], requestBody: { required: true, content: { application/json: { schema: { type: object, required: [method], properties: { method: { type: string, enum: [CARD, CASH_ON_DELIVERY] }, cardNumber: { type: string }, expiry: { type: string }, cvv: { type: string } } } } } }, responses: { "200": { description: Order, content: { application/json: { schema: { $ref: "#/components/schemas/Order" } } } }, "400": { $ref: "#/components/responses/BadRequest" }, "401": { $ref: "#/components/responses/Unauthorized" } } }
+  /api/orders:
+    get: { operationId: listOrders, summary: Order history, security: [ { cookieAuth: [] } ], responses: { "200": { description: Orders, content: { application/json: { schema: { type: array, items: { $ref: "#/components/schemas/Order" } } } } }, "401": { $ref: "#/components/responses/Unauthorized" } } }
