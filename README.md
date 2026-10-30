@@ -33,3 +33,8 @@ Data is held in memory, so accounts and orders reset when the server restarts.
 ## Tests
     mvn test
 Covers cart, checkout, user registration/login, payment validation, and the REST API.
+
+## C# version (NUnit)
+    cd csharp
+    dotnet test
+Built test-first. See `git log` for the red, green and refactor commits.
