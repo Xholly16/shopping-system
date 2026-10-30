@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?><html xmlns:tp="http://schemas.datacontract.org/2004/07/Microsoft.VisualStudio.TestPlatform.Extensions.HtmlLogger.ObjectModel" xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:msxsl="urn:schemas-microsoft-com:xslt"><body><h1>Test run details</h1><div class="summary"><div class="block"><span>Total tests</span><div class="total-tests">17</div><br /></div><div class="block"><span>Passed  : </span><span class="passedTests">17</span><br /><span>Failed  : </span><span class="failedTests">0</span><br /><span>Skipped : </span><span class="skippedTests">0</span><br /></div><div class="block"><span>Pass percentage</span><div class="pass-percentage">100 %</div><br /></div><div class="block"><span>Run duration</span><div class="test-run-time">1m 24s</div><br /></div><br /></div><h2>All Results</h2><div class="list-row" onclick="ToggleClass('89133288')">/home/wethinkcode/Desktop/electives/shopping-system/csharp/ShoppingSystem.GuiTests/bin/Debug/net8.0/ShoppingSystem.GuiTests.dll</div><div class="inner-row" Id="89133288" style="display:none;"><div class="leaf-division"><div><span class="pass">✔</span><span> LogIn_WrongPassword_ShowsError​</span><div class="duration"><span>4s 14ms</span><br /></div></div><div class="error-info" /></div><div class="leaf-division"><div><span class="pass">✔</span><span> LogOut_ReturnsToTheLoginForm​</span><div class="duration"><span>35s 539ms</span><br /></div></div><div class="error-info" /></div><div class="leaf-division"><div><span class="pass">✔</span><span> SignUp_InvalidDetails_ShowsServerError("ab","a@test.com","password123","Username must be")​</span><div class="duration"><span>2s 219ms</span><br /></div></div><div class="error-info" /></div><div class="leaf-division"><div><span class="pass">✔</span><span> SignUp_InvalidDetails_ShowsServerError("validname1","a@b","password123","valid email")​</span><div class="duration"><span>2s 119ms</span><br /></div></div><div class="error-info" /></div><div class="leaf-division"><div><span class="pass">✔</span><span> SignUp_InvalidDetails_ShowsServerError("validname1","a@test.com","short","at least 8")​</span><div class="duration"><span>2s 107ms</span><br /></div></div><div class="error-info" /></div><div class="leaf-division"><div><span class="pass">✔</span><span> SignUp_PasswordsDoNotMatch_ShowsError​</span><div class="duration"><span>2s 89ms</span><br /></div></div><div class="error-info" /></div><div class="leaf-division"><div><span class="pass">✔</span><span> SignUp_ValidDetails_ShowsTheShop​</span><div class="duration"><span>2s 148ms</span><br /></div></div><div class="error-info" /></div><div class="leaf-division"><div><span class="pass">✔</span><span> AddMoreThanStock_ShowsError_AndCartStaysEmpty​</span><div class="duration"><span>2s 208ms</span><br /></div></div><div class="error-info" /></div><div class="leaf-division"><div><span class="pass">✔</span><span> AddToCart_ShowsTheItemAndTotal​</span><div class="duration"><span>3s 925ms</span><br /></div></div><div class="error-info" /></div><div class="leaf-division"><div><span class="pass">✔</span><span> Checkout_WithEmptyCart_ShowsError​</span><div class="duration"><span>2s 191ms</span><br /></div></div><div class="error-info" /></div><div class="leaf-division"><div><span class="pass">✔</span><span> PayCashOnDelivery_PlacesOrder​</span><div class="duration"><span>3s 805ms</span><br /></div></div><div class="error-info" /></div><div class="leaf-division"><div><span class="pass">✔</span><span> PayWithCard_PlacesOrder_AndItAppearsInOrderHistory​</span><div class="duration"><span>4s 891ms</span><br /></div></div><div class="error-info" /></div><div class="leaf-division"><div><span class="pass">✔</span><span> PayWithInvalidDetails_ShowsError_AndKeepsTheCart("1234","12/40","123","Invalid card number")​</span><div class="duration"><span>3s 837ms</span><br /></div></div><div class="error-info" /></div><div class="leaf-division"><div><span class="pass">✔</span><span> PayWithInvalidDetails_ShowsError_AndKeepsTheCart("4242424242424241","12/40","123","Invalid card number")​</span><div class="duration"><span>3s 775ms</span><br /></div></div><div class="error-info" /></div><div class="leaf-division"><div><span class="pass">✔</span><span> PayWithInvalidDetails_ShowsError_AndKeepsTheCart("4242424242424242","01/20","123","expired")​</span><div class="duration"><span>3s 38ms</span><br /></div></div><div class="error-info" /></div><div class="leaf-division"><div><span class="pass">✔</span><span> PayWithInvalidDetails_ShowsError_AndKeepsTheCart("4242424242424242","12/40","12","Invalid CVV")​</span><div class="duration"><span>3s 820ms</span><br /></div></div><div class="error-info" /></div><div class="leaf-division"><div><span class="pass">✔</span><span> Search_Mouse_ShowsOnlyTheMouse​</span><div class="duration"><span>2s 234ms</span><br /></div></div><div class="error-info" /></div></div><div><h2>Informational messages</h2><span>NUnit Adapter 4.2.0.0: Test execution started</span><br /><span>Running all tests in /home/wethinkcode/Desktop/electives/shopping-system/csharp/ShoppingSystem.GuiTests/bin/Debug/net8.0/ShoppingSystem.GuiTests.dll</span><br /><span>   NUnit3TestExecutor discovered 17 of 17 NUnit test cases using Current Discovery mode, Non-Explicit run</span><br /><span>NUnit Adapter 4.2.0.0: Test execution complete</span><br /></div></body><script language="javascript">
+        function ToggleClass(id) {
+        var elem = document.getElementById(id);
+        if (elem.style.display == "none") {
+        elem.style.display = "block";
+        }
+        else {
+        elem.style.display = "none";
+        }
+        }
+      </script><style>
+        body { font-family: Calibri, Verdana, Arial, sans-serif; background-color: White; color: Black; }
+        h2 {
+        margin-top: 15px;
+        margin-bottom:10px;
+        }
+        pre {
+        white-space: pre-wrap;
+        }
+        .summary {font-family:monospace;
+        display: -webkit-flex; /* Safari */
+        -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+        display: flex;
+        flex-wrap: wrap;
+        }
+        .row {
+        border: 2px solid #ffffff;
+        width:100%;
+        cursor:pointer;
+        background-color:#d7e9fa;
+        }
+        .list-row {
+        border: 2px solid #ffffff;
+        width:100%;
+        cursor:pointer;
+        background-color:#ffffff;
+        }
+        .inner-row{
+        border: 2px solid #ffffff;
+        padding-left:1%;
+        margin-left:1%;
+        background-color:#ffffff;
+        }
+        .block{
+        width : 150px;
+        }
+        .leaf-division{
+        border: 2px solid #ffffff;
+        background-color:#e6eff7;
+        }
+        .pass { color: #0c0; }
+        .fail { color: #c00; }
+        .error-message { color : brown; }
+        .error-stack-trace { color: brown; }
+        .duration {float:right;padding-right:1%;}
+        .total-tests { font-size : 30px}
+        .test-run-time { font-size : 30px}
+        .pass-percentage { font-size : 30px}
+        .error-info{
+        margin-left:16px;
+        }
+      </style></html>

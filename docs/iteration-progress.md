@@ -12,3 +12,11 @@ and composition (ProductBuilder). Run with `dotnet test csharp`.
 isolation, data-driven invalid input, spec coverage, and Swagger Petstore practice.
 Run: start the app (`mvn -q compile exec:java`), then `dotnet test csharp/ShoppingSystem.ApiTests`.
 Report: docs/api-test-report.html
+
+## Iteration 3 (GUI testing)
+`csharp/ShoppingSystem.GuiTests`: Selenium WebDriver programmed tests (not record and replay) using
+Page Objects (AuthPage, ShopPage, OrdersPage, BasePage) to separate mechanics from test logic.
+Covers sign up, log in/out, search, cart, card and cash payment, order history, and invalid-input
+data-driven cases. Screenshots are saved on failure.
+Run: start the app, then `dotnet test csharp/ShoppingSystem.GuiTests` (BROWSER=chrome, HEADLESS=0 optional).
+Report: docs/gui-test-report.html
